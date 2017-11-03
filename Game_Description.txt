@@ -1,0 +1,4 @@
+Our game will be a free for all in a fantasy environment.
+The camera will be a third person camera
+In the future we will try to give to the player a character selection splash screen before start to play.
+In our environment will be set some perks (weapons,increase power/ health) that will give to the player some special abilities. 
