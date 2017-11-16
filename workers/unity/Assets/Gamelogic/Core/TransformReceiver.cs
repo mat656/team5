@@ -44,6 +44,7 @@ namespace Assets.Gamelogic.Core
                 if (update.rotation.HasValue)
                 {
                     transform.rotation = update.rotation.Value.ToUnityQuaternion();
+					transform.eulerAngles= new Vector3(0, transform.rotation.eulerAngles.y,0);
                 }
             }
         }

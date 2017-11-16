@@ -1,0 +1,10 @@
+package improbable.core;
+type Commands {
+    float x_axis = 1;
+    float y_axis = 2;
+}
+
+component TargetInput {
+    id = 1005;
+    Commands commands = 1;
+}

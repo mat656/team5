@@ -29,14 +29,15 @@ namespace Assets.Gamelogic.EntityTemplates
         public static Entity CreatePlayerTemplate(string clientId)
         {
             var playerTemplate = EntityBuilder.Begin()
-                .AddPositionComponent(Improbable.Coordinates.ZERO.ToUnityVector(), CommonRequirementSets.PhysicsOnly)
-                .AddMetadataComponent(entityType: SimulationSettings.PlayerPrefabName)
+				.AddPositionComponent(new Improbable.Coordinates(0, 0, 0).ToUnityVector(), CommonRequirementSets.PhysicsOnly)                
+				.AddMetadataComponent(entityType: SimulationSettings.PlayerPrefabName)
                 .SetPersistence(false)
                 .SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
                 .AddComponent(new Rotation.Data(Quaternion.identity.ToNativeQuaternion()), CommonRequirementSets.PhysicsOnly)
                 .AddComponent(new ClientAuthorityCheck.Data(), CommonRequirementSets.SpecificClientOnly(clientId))
                 .AddComponent(new ClientConnection.Data(SimulationSettings.TotalHeartbeatsBeforeTimeout), CommonRequirementSets.PhysicsOnly)
-                .Build();
+				.AddComponent(new PlayerInput.Data(new Joystick(xAxis: 0, yAxis: 0)), CommonRequirementSets.SpecificClientOnly(clientId))
+				.Build();
 
             return playerTemplate;
         }
@@ -53,5 +54,20 @@ namespace Assets.Gamelogic.EntityTemplates
 
             return cubeTemplate;
         }
+
+		public static Entity CreateTargetTemplate()
+		{
+			var targetTemplate = EntityBuilder.Begin()
+				.AddPositionComponent(new Improbable.Coordinates(3, -4, 3).ToUnityVector(), CommonRequirementSets.PhysicsOnly)
+				.AddMetadataComponent(entityType: SimulationSettings.TargetPrefabName)
+				.SetPersistence(true)
+				.SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
+				.AddComponent(new Rotation.Data(Quaternion.identity.ToNativeQuaternion()), CommonRequirementSets.PhysicsOnly)
+				.AddComponent(new TargetInput.Data(new Commands(0, 0)), CommonRequirementSets.PhysicsOnly)
+				.AddComponent(new Touching.Data(0), CommonRequirementSets.PhysicsOnly)
+				.Build();
+
+			return targetTemplate;
+		}
     }
 }

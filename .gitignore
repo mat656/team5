@@ -1,0 +1,6 @@
+.DS_Store
+build/
+logs/
+workers/unity/Assets/Kitten/
+workers/unity/Assets/DragonTerrorBringer
+workers/unity/Assets/NatureStarterKit2
