@@ -29,7 +29,8 @@ namespace Assets.Gamelogic.Core
         private void OnCreatePlayer(ResponseHandle<PlayerCreation.Commands.CreatePlayer, CreatePlayerRequest, CreatePlayerResponse> responseHandle)
         {
             var clientWorkerId = responseHandle.CallerInfo.CallerWorkerId;
-            var playerEntityTemplate = EntityTemplateFactory.CreatePlayerTemplate(clientWorkerId);
+			Vector3  initialPosition =  new Vector3 ((Random.Range(-1f,1f) * 0.5f)*Random.Range(-200f,200f),-5f,(Random.Range(-1f,1f)*0.5f)*Random.Range(-200f,200f));
+			var playerEntityTemplate = EntityTemplateFactory.CreatePlayerTemplate(clientWorkerId,  initialPosition);
             SpatialOS.Commands.CreateEntity (PlayerCreationWriter, playerEntityTemplate)
                 .OnSuccess (_ => responseHandle.Respond (new CreatePlayerResponse ((int) StatusCode.Success)))
                 .OnFailure (failure => responseHandle.Respond (new CreatePlayerResponse ((int) failure.StatusCode)));

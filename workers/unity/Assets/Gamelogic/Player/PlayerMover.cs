@@ -7,6 +7,7 @@ using Improbable.Unity;
 using Improbable.Unity.Visualizer;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 
 [WorkerType(WorkerPlatform.UnityWorker)]
@@ -17,31 +18,34 @@ public class PlayerMover : MonoBehaviour {
 	[Require] private PlayerInput.Reader PlayerInputReader;
 
 
+	private float m_Speed;
 
-	public int m_PlayerNumber = 1;         
-	public float m_Speed = 12f;            
+	public int m_PlayerNumber = 1;              
 	public float m_TurnSpeed = 180f;  
+	public float m_SpeedBoost;
+	public int m_WaitSeconds;
+
 
 	private Rigidbody m_rigidbody;
 
 	void OnEnable ()
 	{
 		m_rigidbody = GetComponent<Rigidbody>();
+		m_Speed = 4;
 
 	}
 		
 	void FixedUpdate (){
 	
 		var joystick = PlayerInputReader.Data.joystick;
-
-		Move (joystick);
+		float m_Speed1 = m_Speed;
+		Move (joystick, m_Speed1);
 		Turn (joystick);
-
 	
 	}
 
-	private void Move(Joystick joystick){
-		Vector3 movement = transform.forward * joystick.yAxis * m_Speed * Time.deltaTime;
+	private void Move(Joystick joystick, float speed){
+		Vector3 movement = transform.forward * joystick.yAxis * speed * Time.deltaTime;
 		movement.y = 0;
 		m_rigidbody.MovePosition (m_rigidbody.position + movement);
 
@@ -63,6 +67,23 @@ public class PlayerMover : MonoBehaviour {
 			.SetRotation(m_rigidbody.rotation.ToNativeQuaternion());
 		RotationWriter.Send(rotationUpdate);*/
 
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other != null && other.gameObject.tag == "SpeedBox") {
+
+			StartCoroutine(WaitForStopSpeed());
+
+		}
+
+	}
+
+	IEnumerator WaitForStopSpeed()
+	{
+		m_Speed = m_SpeedBoost * m_Speed;
+		yield return new WaitForSeconds(m_WaitSeconds);
+		m_Speed = m_Speed / m_SpeedBoost;
 	}
 		
 }

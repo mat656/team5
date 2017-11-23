@@ -1,6 +1,0 @@
-package improbable.core;
-
-component Touching {
-    id = 1006;
-    int32 istouched = 1;
-}

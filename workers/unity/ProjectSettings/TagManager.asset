@@ -7,6 +7,14 @@ TagManager:
   - Dragon
   - WinText
   - StartText
+  - WeaponBox
+  - SpeedBox
+  - SnowBall
+  - HP
+  - FireBall
+  - EnergyBall
+  - MagicBall
+  - LoseText
   layers:
   - Default
   - TransparentFX

@@ -18,8 +18,9 @@ namespace Assets.Editor
 			var currentEntityId = 1;
 
 			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreatePlayerCreatorTemplate());
-			snapshotEntities.Add(new EntityId(currentEntityId++), EntityTemplateFactory.CreateTargetTemplate());
-
+			PopulateSnapshotWithWeaponBoxContainerEntities (ref snapshotEntities, ref currentEntityId);
+			PopulateSnapshotWithSpeedBoostBoxContainerEntities (ref snapshotEntities, ref currentEntityId);
+			PopulateSnapshotWithHPBoxContainerEntities (ref snapshotEntities, ref currentEntityId);
 			SaveSnapshot(snapshotEntities);
 		}
 
@@ -35,6 +36,30 @@ namespace Assets.Editor
 			else
 			{
 				Debug.LogFormat("Successfully generated initial world snapshot at {0}", SimulationSettings.DefaultSnapshotPath);
+			}
+		}
+
+		public static void PopulateSnapshotWithWeaponBoxContainerEntities(ref Dictionary<EntityId,Entity> snapshotEntities,ref int nextavailableId)
+		{
+			for (var i = 0; i < 10; i++) {
+				var Weaponcoors = new Vector3 ((Random.Range(-1f,1f) * 0.5f)*Random.Range(-200f,200f),-5f,(Random.Range(-1f,1f)*0.5f)*Random.Range(-200f,200f));
+				snapshotEntities.Add(new EntityId(nextavailableId++), EntityTemplateFactory.CreateWeaponBoxContainerTemplate(Weaponcoors));
+			}
+		}
+
+		public static void PopulateSnapshotWithSpeedBoostBoxContainerEntities(ref Dictionary<EntityId,Entity> snapshotEntities,ref int nextavailableId)
+		{
+			for (var i = 0; i < 10; i++) {
+				var SpeedBoostBoxcoors = new Vector3 ((Random.Range(-1f,1f) * 0.5f)*Random.Range(-200f,200f),-5f,(Random.Range(-1f,1f)*0.5f)*Random.Range(-200f,200f));
+				snapshotEntities.Add(new EntityId(nextavailableId++), EntityTemplateFactory.CreateSpeedBoostBoxContainerTemplate(SpeedBoostBoxcoors));
+			}
+		}
+
+		public static void PopulateSnapshotWithHPBoxContainerEntities(ref Dictionary<EntityId,Entity> snapshotEntities,ref int nextavailableId)
+		{
+			for (var i = 0; i < 5; i++) {
+				var HPBoxcoors = new Vector3 ((Random.Range(-1f,1f) * 0.5f)*Random.Range(-200f,200f),-5f,(Random.Range(-1f,1f)*0.5f)*Random.Range(-200f,200f));
+				snapshotEntities.Add(new EntityId(nextavailableId++), EntityTemplateFactory.CreateHPBoxContainerTemplate(HPBoxcoors));
 			}
 		}
 	}

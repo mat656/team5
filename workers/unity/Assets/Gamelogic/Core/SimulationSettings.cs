@@ -21,6 +21,8 @@ namespace Assets.Gamelogic.Core
         public static readonly int TargetClientFramerate = 60;
         public static readonly int TargetServerFramerate = 60;
         public static readonly int FixedFramerate = 20;
+		public static readonly float ClientConnectionTimeoutSecs = 7;
+
 
         public static readonly float PlayerCreatorQueryRetrySecs = 4;
         public static readonly float PlayerEntityCreationRetrySecs = 4;

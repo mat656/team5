@@ -26,10 +26,50 @@ namespace Assets.Gamelogic.EntityTemplates
             return playerCreatorEntityTemplate;
         }
 
-        public static Entity CreatePlayerTemplate(string clientId)
+		public static Entity CreateWeaponBoxContainerTemplate(Vector3 initialPosition)
+		{
+			var WeaponBoxContainerTemplate = EntityBuilder.Begin()
+				.AddPositionComponent(initialPosition, CommonRequirementSets.PhysicsOnly)
+				.AddMetadataComponent("WeaponBoxContainer")
+				.SetPersistence(true)
+				.SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
+				.AddComponent(new Rotation.Data(Quaternion.identity.ToNativeQuaternion()), CommonRequirementSets.PhysicsOnly)
+				.Build();		
+
+			return WeaponBoxContainerTemplate;
+		}
+
+		public static Entity CreateSpeedBoostBoxContainerTemplate(Vector3 initialPosition)
+		{
+			var SpeedBoostBoxContainerTemplate = EntityBuilder.Begin()
+				.AddPositionComponent(initialPosition, CommonRequirementSets.PhysicsOnly)
+				.AddMetadataComponent("SpeedBoostBoxContainer")
+				.SetPersistence(true)
+				.SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
+				.AddComponent(new Rotation.Data(Quaternion.identity.ToNativeQuaternion()), CommonRequirementSets.PhysicsOnly)
+				.Build();		
+
+			return SpeedBoostBoxContainerTemplate;
+		}
+
+		public static Entity CreateHPBoxContainerTemplate(Vector3 initialPosition)
+		{
+			var HPBoxContainerTemplate = EntityBuilder.Begin()
+				.AddPositionComponent(initialPosition, CommonRequirementSets.PhysicsOnly)
+				.AddMetadataComponent("HPBoxContainer")
+				.SetPersistence(true)
+				.SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
+				.AddComponent(new Rotation.Data(Quaternion.identity.ToNativeQuaternion()), CommonRequirementSets.PhysicsOnly)
+				.Build();		
+
+			return HPBoxContainerTemplate;
+		}
+
+
+		public static Entity CreatePlayerTemplate(string clientId, Vector3 initialPosition)
         {
             var playerTemplate = EntityBuilder.Begin()
-				.AddPositionComponent(new Improbable.Coordinates(0, 0, 0).ToUnityVector(), CommonRequirementSets.PhysicsOnly)                
+				.AddPositionComponent(initialPosition, CommonRequirementSets.PhysicsOnly)                
 				.AddMetadataComponent(entityType: SimulationSettings.PlayerPrefabName)
                 .SetPersistence(false)
                 .SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
@@ -37,6 +77,8 @@ namespace Assets.Gamelogic.EntityTemplates
                 .AddComponent(new ClientAuthorityCheck.Data(), CommonRequirementSets.SpecificClientOnly(clientId))
                 .AddComponent(new ClientConnection.Data(SimulationSettings.TotalHeartbeatsBeforeTimeout), CommonRequirementSets.PhysicsOnly)
 				.AddComponent(new PlayerInput.Data(new Joystick(xAxis: 0, yAxis: 0)), CommonRequirementSets.SpecificClientOnly(clientId))
+				.AddComponent(new Touching.Data(), CommonRequirementSets.PhysicsOnly)
+				.AddComponent(new Health.Data(100), CommonRequirementSets.PhysicsOnly)
 				.Build();
 
             return playerTemplate;
@@ -54,20 +96,6 @@ namespace Assets.Gamelogic.EntityTemplates
 
             return cubeTemplate;
         }
-
-		public static Entity CreateTargetTemplate()
-		{
-			var targetTemplate = EntityBuilder.Begin()
-				.AddPositionComponent(new Improbable.Coordinates(3, -4, 3).ToUnityVector(), CommonRequirementSets.PhysicsOnly)
-				.AddMetadataComponent(entityType: SimulationSettings.TargetPrefabName)
-				.SetPersistence(true)
-				.SetReadAcl(CommonRequirementSets.PhysicsOrVisual)
-				.AddComponent(new Rotation.Data(Quaternion.identity.ToNativeQuaternion()), CommonRequirementSets.PhysicsOnly)
-				.AddComponent(new TargetInput.Data(new Commands(0, 0)), CommonRequirementSets.PhysicsOnly)
-				.AddComponent(new Touching.Data(0), CommonRequirementSets.PhysicsOnly)
-				.Build();
-
-			return targetTemplate;
-		}
+			
     }
 }

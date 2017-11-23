@@ -1,0 +1,8 @@
+package improbable.player;
+
+type TouchBox{}
+
+component Touching {
+    id = 1008;
+    event TouchBox touch_box;
+}
